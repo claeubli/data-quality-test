@@ -8,7 +8,7 @@ and check if it contains duplicates. If duplicates were identified it will write
 ## Domain test
 The domain test ensures that a field only containse the expected values. We distinguish between the following types: 
 - Categorical: Ensuring that field only contains a finite list of acceptable values.
-- Range: Ensuring that the numerical value lays between a lower and an upper bound.
+- Numeric: Ensuring that the numerical value lays between a lower and an upper bound.
 
 In order to run the domain tests we need to specify the table path, affected field name and domain test type in a seperate table.
 Once this is specified we can run the domain test. If there is violoation of the constraint a new record will be created in the table.
