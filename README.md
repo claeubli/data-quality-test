@@ -10,5 +10,5 @@ The domain test ensures that a field only containse the expected values. We dist
 - Categorical: Ensuring that field only contains a finite list of acceptable values.
 - Range: Ensuring that the numerical value lays between a lower and an upper bound.
 
-In order to run the domain tests we need to specify the table path and domain test type in a seperate table.
+In order to run the domain tests we need to specify the table path, affected field name and domain test type in a seperate table.
 Once this is specified we can run the domain test. If there is violoation of the constraint a new record will be created in the table.
