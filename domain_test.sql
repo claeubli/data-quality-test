@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `staging_data_quality_domain`
     affected_field_name STRING NOT NULL OPTIONS (DESCRIPTION = 'This is the name of the affected field'),
     expected_value      ARRAY<STRING> OPTIONS (DESCRIPTION = 'These are the expected values for the field'),
     type                STRING NOT NULL OPTIONS (DESCRIPTION = 'Has to be one of the following: "categoric", "numeric"'),
-    creation_datetime   DATETIME DEFAULT NOT NULL CURRENT_DATETIME() OPTIONS (DESCRIPTION = 'The time when the record was created')
+    creation_datetime   DATETIME DEFAULT CURRENT_DATETIME() NOT NULL OPTIONS (DESCRIPTION = 'The time when the record was created')
 )
     OPTIONS (DESCRIPTION = "Contains meta data used to run the data quality domain test",
         LABELS = [("table_type", "data_quality")]);
@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS `meta_data`
     table_path             STRING NOT NULL OPTIONS (DESCRIPTION = 'This is the affected table path'),
     affected_field_name    STRING NOT NULL OPTIONS (DESCRIPTION = 'This is the name of the affected field'),
     unexpected_field_value ARRAY <STRING> OPTIONS (DESCRIPTION = 'These are the unexpected values for the field'),
-    creation_datetime      DATETIME DEFAULT CURRENT_DATETIME() OPTIONS (DESCRIPTION = 'The time when the record was created')
+    creation_datetime      DATETIME DEFAULT CURRENT_DATETIME() NOT NULL OPTIONS (DESCRIPTION = 'The time when the record was created')
 )
   OPTIONS (DESCRIPTION = "Contains domain test data on fields with unexpected values",
-        LABELS = [("table_type", "data_quality")]);;
+        LABELS = [("table_type", "data_quality")]);
 
 FOR record IN (SELECT * FROM `staging_data_quality_domain`)
     DO
