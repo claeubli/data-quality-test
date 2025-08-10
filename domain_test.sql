@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `staging_data_quality_domain`
+CREATE TABLE IF NOT EXISTS `{{params.destination_dataset}}.staging_data_quality_domain`
 (
     table_path          STRING NOT NULL OPTIONS (DESCRIPTION = 'This is the affected table path'),
     affected_field_name STRING NOT NULL OPTIONS (DESCRIPTION = 'This is the name of the affected field'),
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `staging_data_quality_domain`
     OPTIONS (DESCRIPTION = "Contains meta data used to run the data quality domain test",
         LABELS = [("table_type", "data_quality")]);
 
-INSERT INTO `staging_data_quality_domain`
+INSERT INTO `{{params.destination_dataset}}.staging_data_quality_domain`
 (
     table_path,
     affected_field_name,
@@ -21,7 +21,7 @@ VALUES
 ('project_name.dataset_name.table_name', 'field_name', ['pending', 'approved', 'declined'], 'categoric'),
 ('project_name.dataset_name.table_name', 'field_name', ['0', '1'], 'numeric');
 
-CREATE TABLE IF NOT EXISTS `meta_data`
+CREATE TABLE IF NOT EXISTS `{{params.destination_dataset}}.data_quality_domain`
 (
     table_path             STRING NOT NULL OPTIONS (DESCRIPTION = 'This is the affected table path'),
     affected_field_name    STRING NOT NULL OPTIONS (DESCRIPTION = 'This is the name of the affected field'),
@@ -31,10 +31,10 @@ CREATE TABLE IF NOT EXISTS `meta_data`
   OPTIONS (DESCRIPTION = "Contains domain test data on fields with unexpected values",
         LABELS = [("table_type", "data_quality")]);
 
-FOR record IN (SELECT * FROM `staging_data_quality_domain`)
+FOR record IN (SELECT * FROM `{{params.destination_dataset}}.staging_data_quality_domain`)
     DO
         EXECUTE IMMEDIATE FORMAT("""
-        INSERT INTO meta_data
+        INSERT INTO `{{params.destination_dataset}}.data_quality_domain`
         SELECT '%s' AS table_path, '%s' AS affected_field_name, ARRAY_AGG(DISTINCT CAST(%s AS STRING)) AS unexpected_field_value, CURRENT_DATETIME AS creation_datetime
         FROM `%s`
         WHERE '%s' = 'categoric' AND CAST(%s AS STRING) NOT IN UNNEST(SPLIT('%s', ','))
