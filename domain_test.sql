@@ -35,12 +35,12 @@ FOR record IN (SELECT * FROM `staging_data_quality_domain`)
     DO
         EXECUTE IMMEDIATE FORMAT("""
         INSERT INTO meta_data
-        SELECT '%s' AS table_path, '%s' AS affected_field_name, ARRAY_AGG(DISTINCT %s) AS unexpected_field_value, CURRENT_DATETIME AS creation_datetime
+        SELECT '%s' AS table_path, '%s' AS affected_field_name, ARRAY_AGG(DISTINCT CAST(%s AS STRING)) AS unexpected_field_value, CURRENT_DATETIME AS creation_datetime
         FROM `%s`
         WHERE '%s' = 'categoric' AND CAST(%s AS STRING) NOT IN UNNEST(SPLIT('%s', ','))
         HAVING ARRAY_LENGTH(ARRAY_AGG(DISTINCT %s)) > 0
         UNION ALL
-        SELECT '%s' AS table_path, '%s' AS affected_field_name, ARRAY_AGG(DISTINCT %s) AS unexpected_field_value, CURRENT_DATETIME AS creation_datetime
+        SELECT '%s' AS table_path, '%s' AS affected_field_name, ARRAY_AGG(DISTINCT CAST(%s AS STRING)) AS unexpected_field_value, CURRENT_DATETIME AS creation_datetime
         FROM `%s`
         WHERE '%s' = 'numeric' AND SAFE_CAST(%s AS FLOAT64) NOT BETWEEN
         SAFE_CAST(SPLIT('%s', ',')[OFFSET(0)] AS FLOAT64) AND
