@@ -49,7 +49,7 @@ FOR current_table IN (SELECT table_path, primary_key_field
             SELECT
               %s,
               COUNT(1) as affected_record
-            FROM `{{params.}}.%s`
+            FROM `{{params.destination_project}}.%s`
             GROUP BY ALL
             HAVING COUNT(1) > 1)
 
