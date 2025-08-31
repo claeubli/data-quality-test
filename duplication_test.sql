@@ -25,6 +25,7 @@ FOR record IN (SELECT * FROM UNNEST(datasets) AS dataset)
             STRING_AGG(column_name, ', ')         AS primary_key_field,
             CONCAT(table_schema, '.', table_name) AS table_path
         FROM `{{params.destination_project}}.%s.INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE`
+        WHERE SPLIT(constraint_name, '.')[OFFSET(1)] = 'pk$'
         GROUP BY ALL
     """, record.dataset);
     END FOR;
