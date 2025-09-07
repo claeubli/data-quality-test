@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `{{params.destination_dataset}}.staging_data_quality_
     type                STRING NOT NULL OPTIONS (DESCRIPTION = 'Has to be one of the following: "categoric", "numeric"'),
     creation_datetime   DATETIME DEFAULT CURRENT_DATETIME() NOT NULL OPTIONS (DESCRIPTION = 'The time when the record was created')
 )
-    OPTIONS (DESCRIPTION = "Contains meta data used to run the data quality domain test",
+    OPTIONS (DESCRIPTION = "Contains metadata used to run the data quality domain test",
         LABELS = [("table_type", "data_quality")]);
 
 INSERT INTO `{{params.destination_dataset}}.staging_data_quality_domain`
