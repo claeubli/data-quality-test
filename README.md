@@ -3,7 +3,7 @@ This repository contains generic data quality tests written in bigquery sql. Bel
 
 ## Duplication test
 This test will use your meta data of your tables in specified datasets. It will use the primary key specified for each table within the dataset
-and check if it contains duplicates. If duplicates were identified it will write a new record to the table.
+and check if it contains duplicates. If duplicates were identified it will write a new record to the duplication test table.
 
 ## Domain test
 The domain test ensures that a field only containse the expected values. We distinguish between the following types: 
@@ -12,3 +12,6 @@ The domain test ensures that a field only containse the expected values. We dist
 
 In order to run the domain tests we need to specify the table path, affected field name and domain test type in a seperate table.
 Once this is specified we can run the domain test. If there is violoation of the constraint a new record will be added to the domain test table.
+
+## Freshness test
+The freshness test will check when your tables were last updated. If a table didn't get updated for more than two days a new record will be created in the freshness test table.
